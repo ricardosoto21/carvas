@@ -28,6 +28,7 @@
       <a class="skip-link" href="#inicio">Ir al contenido principal</a>
       <header class="site-header" id="top"></header>
       <main id="app" class="site-main"></main>
+      <footer class="site-footer" id="site-footer"></footer>
       <button
         class="floating-whatsapp"
         id="floating-whatsapp"
@@ -36,6 +37,17 @@
       >
         <span>WhatsApp</span>
       </button>
+    </div>
+
+    <div class="image-modal" id="image-modal" hidden>
+      <div class="image-modal__backdrop" data-close-image-modal></div>
+      <div class="image-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="image-modal-title">
+        <button class="image-modal__close" id="image-modal-close" type="button" aria-label="Cerrar imagen">
+          ×
+        </button>
+        <p class="sr-only" id="image-modal-title">Vista ampliada de imagen</p>
+        <img class="image-modal__image" id="image-modal-image" alt="" />
+      </div>
     </div>
 
     <noscript>

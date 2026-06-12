@@ -5,14 +5,20 @@
     return;
   }
 
-  const { company, meta, nav, hero, benefits, about, services, projects, gallery, contact } = content;
+  const { company, meta, nav, hero, benefits, about, services, projects, gallery, contact, footer } = content;
   const header = document.getElementById("top");
   const app = document.getElementById("app");
+  const siteFooter = document.getElementById("site-footer");
   const floatingWhatsapp = document.getElementById("floating-whatsapp");
+  const imageModal = document.getElementById("image-modal");
+  const imageModalImage = document.getElementById("image-modal-image");
+  const imageModalClose = document.getElementById("image-modal-close");
+  let modalTrigger = null;
 
   applyMeta(meta);
   renderHeader();
   renderMain();
+  renderFooter();
   wireInteractions();
 
   function applyMeta(pageMeta) {
@@ -36,7 +42,6 @@
         <div class="container topbar__inner">
           <p>${company.address}</p>
           <div class="topbar__links">
-            <a href="tel:${company.phoneRaw}">${company.phoneDisplay}</a>
             <a href="${company.instagram}" target="_blank" rel="noreferrer">Instagram</a>
           </div>
         </div>
@@ -135,8 +140,8 @@
       <section class="trust-band section">
         <div class="container trust-band__inner" data-reveal>
           <div>
-            <p class="eyebrow">Acompañamiento real</p>
-            <h2>Construye con profesionales y una planificación clara.</h2>
+            <p class="eyebrow">Asesoría personalizada</p>
+            <h2>Construye con confianza. Construye con profesionales.</h2>
           </div>
           <div class="trust-band__grid">
             ${benefits.map((item) => `<article class="trust-chip">${item}</article>`).join("")}
@@ -154,19 +159,7 @@
             <p class="eyebrow">${about.eyebrow}</p>
             <h2>${about.title}</h2>
             <p>${about.description}</p>
-            <p>${about.extra}</p>
-            <div class="about__stats">
-              ${about.stats
-                .map(
-                  (stat) => `
-                    <div class="stat-card">
-                      <strong>${stat.value}</strong>
-                      <span>${stat.label}</span>
-                    </div>
-                  `
-                )
-                .join("")}
-            </div>
+            ${about.extra ? `<p>${about.extra}</p>` : ""}
           </div>
           <figure class="about__figure" data-reveal>
             <img src="${about.image}" alt="${about.alt}" loading="lazy" />
@@ -181,9 +174,8 @@
       <section class="section services" id="servicios">
         <div class="container">
           <div class="section-heading" data-reveal>
-            <p class="eyebrow">Nuestros servicios</p>
-            <h2>Calidad y compromiso en cada proyecto.</h2>
-            <p>Soluciones integrales para viviendas, obras complementarias y mejoras en terreno.</p>
+            <p class="eyebrow">NUESTROS SERVICIOS</p>
+            <h2>Calidad y compromiso en cada proyecto</h2>
           </div>
           <div class="services__grid">
             ${services
@@ -192,7 +184,7 @@
                   <article class="service-card" data-reveal style="transition-delay:${index * 40}ms">
                     <span class="service-card__index">0${index + 1}</span>
                     <h3>${service.title}</h3>
-                    <p>${service.description}</p>
+                    ${service.description ? `<p>${service.description}</p>` : ""}
                   </article>
                 `
               )
@@ -209,8 +201,8 @@
         <div class="container">
           <div class="section-heading" data-reveal>
             <p class="eyebrow">Proyectos destacados</p>
-            <h2>Obras que muestran cómo trabajamos.</h2>
-            <p>Desde viviendas familiares hasta soluciones de alto desempeño para uso industrial.</p>
+            <h2>Algunos trabajos recientes.</h2>
+            <p>Casas, radieres y obras complementarias.</p>
           </div>
           <div class="projects__list">
             ${projects
@@ -218,7 +210,15 @@
                 (project, index) => `
                   <article class="project-card ${index % 2 === 0 ? "project-card--accent" : ""}" data-reveal>
                     <div class="project-card__media">
-                      <img src="${project.cover}" alt="${project.alt}" loading="lazy" />
+                      <button
+                        type="button"
+                        class="image-trigger"
+                        data-image-src="${project.cover}"
+                        data-image-alt="${project.alt}"
+                        aria-label="Ampliar imagen principal de ${project.name}"
+                      >
+                        <img src="${project.cover}" alt="${project.alt}" loading="lazy" />
+                      </button>
                     </div>
                     <div class="project-card__body">
                       <div class="project-card__topline">
@@ -235,7 +235,15 @@
                           .map(
                             (image) => `
                               <figure>
-                                <img src="${image}" alt="Detalle del proyecto ${project.name}" loading="lazy" />
+                                <button
+                                  type="button"
+                                  class="image-trigger image-trigger--thumb"
+                                  data-image-src="${image}"
+                                  data-image-alt="Detalle del proyecto ${project.name}"
+                                  aria-label="Ampliar imagen del proyecto ${project.name}"
+                                >
+                                  <img src="${image}" alt="Detalle del proyecto ${project.name}" loading="lazy" />
+                                </button>
                               </figure>
                             `
                           )
@@ -258,16 +266,23 @@
         <div class="container">
           <div class="section-heading" data-reveal>
             <p class="eyebrow">Galería de trabajos</p>
-            <h2>Terreno, detalle y avance real.</h2>
-            <p>Una selección visual de trabajos realizados para transmitir método, oficio y resultados.</p>
+            <h2>Galería de trabajos.</h2>
+            <p>Imágenes reales de obras y avances.</p>
           </div>
           <div class="gallery__masonry">
             ${gallery
               .map(
                 (item, index) => `
                   <figure class="gallery-card ${index % 3 === 0 ? "gallery-card--large" : ""}" data-reveal>
-                    <img src="${item.image}" alt="${item.alt}" loading="lazy" />
-                    <figcaption>${item.label}</figcaption>
+                    <button
+                      type="button"
+                      class="image-trigger"
+                      data-image-src="${item.image}"
+                      data-image-alt="${item.alt}"
+                      aria-label="Ampliar imagen de galería"
+                    >
+                      <img src="${item.image}" alt="${item.alt}" loading="lazy" />
+                    </button>
                   </figure>
                 `
               )
@@ -285,9 +300,8 @@
           <div class="contact__content" data-reveal>
             <p class="eyebrow">Contacto</p>
             <h2>${contact.title}</h2>
-            <p>${contact.description}</p>
+            ${contact.description ? `<p>${contact.description}</p>` : ""}
             <div class="contact__details">
-              <a href="tel:${company.phoneRaw}">${company.phoneDisplay}</a>
               <a href="mailto:${company.email}">${company.email}</a>
               <p>${company.address}</p>
             </div>
@@ -319,12 +333,36 @@
                   )
                   .join("")}
                 <button type="submit" class="button button--primary button--full">${contact.form.submitLabel}</button>
-                <p class="form-hint">Al enviar, abriremos WhatsApp con tu mensaje listo para revisar y enviar.</p>
+                <p class="form-hint">El formulario abrirá WhatsApp con tu mensaje listo para enviar.</p>
               </form>
             </div>
           </div>
         </div>
       </section>
+    `;
+  }
+
+  function renderFooter() {
+    if (!siteFooter) {
+      return;
+    }
+
+    siteFooter.innerHTML = `
+      <div class="container site-footer__inner">
+        <div class="site-footer__brand">
+          <img src="${company.logo}" alt="Logo de ${company.name}" />
+          <div>
+            <h2>${footer.title}</h2>
+            <p>${footer.text}</p>
+          </div>
+        </div>
+        <div class="site-footer__details">
+          <p>${company.phoneDisplay}</p>
+          <a href="mailto:${company.email}">${company.email}</a>
+          <p>${company.address}</p>
+          <a href="${company.instagram}" target="_blank" rel="noreferrer">Instagram</a>
+        </div>
+      </div>
     `;
   }
 
@@ -335,6 +373,8 @@
     wireForm();
     wireHeroCarousel();
     wireRevealAnimations();
+    wireImageTriggers();
+    wireImageModal();
   }
 
   function wireMenu() {
@@ -473,6 +513,59 @@
     );
 
     revealItems.forEach((item) => observer.observe(item));
+  }
+
+  function wireImageTriggers() {
+    document.querySelectorAll(".image-trigger").forEach((button) => {
+      button.addEventListener("click", function () {
+        openImageModal(button.getAttribute("data-image-src"), button.getAttribute("data-image-alt"), button);
+      });
+    });
+  }
+
+  function wireImageModal() {
+    if (!imageModal || !imageModalImage || !imageModalClose) {
+      return;
+    }
+
+    imageModalClose.addEventListener("click", closeImageModal);
+    imageModal.querySelectorAll("[data-close-image-modal]").forEach((element) => {
+      element.addEventListener("click", closeImageModal);
+    });
+
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape" && !imageModal.hidden) {
+        closeImageModal();
+      }
+    });
+  }
+
+  function openImageModal(src, alt, trigger) {
+    if (!imageModal || !imageModalImage) {
+      return;
+    }
+
+    modalTrigger = trigger || null;
+    imageModalImage.src = src;
+    imageModalImage.alt = alt || "";
+    imageModal.hidden = false;
+    document.body.classList.add("modal-open");
+    imageModalClose.focus();
+  }
+
+  function closeImageModal() {
+    if (!imageModal || !imageModalImage) {
+      return;
+    }
+
+    imageModal.hidden = true;
+    imageModalImage.removeAttribute("src");
+    imageModalImage.alt = "";
+    document.body.classList.remove("modal-open");
+    if (modalTrigger) {
+      modalTrigger.focus();
+      modalTrigger = null;
+    }
   }
 
   function valueOrFallback(value, fallback) {

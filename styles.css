@@ -38,6 +38,10 @@ body {
     linear-gradient(180deg, #fbfaf7 0%, #f2ede5 100%);
 }
 
+body.modal-open {
+  overflow: hidden;
+}
+
 img {
   display: block;
   max-width: 100%;
@@ -77,6 +81,18 @@ button {
   letter-spacing: 0.18em;
   font-size: 0.76rem;
   font-weight: 700;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 h1,
@@ -327,6 +343,10 @@ p {
   max-width: 46rem;
 }
 
+.hero .eyebrow {
+  color: rgba(255, 255, 255, 0.94);
+}
+
 .hero__subtitle {
   max-width: 40rem;
   margin-bottom: 2rem;
@@ -470,14 +490,6 @@ p {
   color: var(--stone-500);
 }
 
-.about__stats {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1rem;
-  margin-top: 1.8rem;
-}
-
-.stat-card,
 .service-card,
 .project-card,
 .gallery-card,
@@ -486,17 +498,6 @@ p {
   background: rgba(255, 255, 255, 0.78);
   border: 1px solid rgba(39, 40, 108, 0.08);
   box-shadow: var(--shadow-md);
-}
-
-.stat-card {
-  padding: 1.3rem;
-}
-
-.stat-card strong {
-  display: block;
-  margin-bottom: 0.35rem;
-  color: var(--navy-900);
-  font-size: 1.8rem;
 }
 
 .about__figure {
@@ -571,6 +572,28 @@ p {
   object-fit: cover;
 }
 
+.image-trigger {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border-radius: inherit;
+  overflow: hidden;
+}
+
+.image-trigger img {
+  transition: transform var(--transition);
+}
+
+.image-trigger:hover img,
+.image-trigger:focus-visible img {
+  transform: scale(1.02);
+}
+
+.image-trigger:focus-visible {
+  outline: 3px solid rgba(47, 78, 155, 0.45);
+  outline-offset: 4px;
+}
+
 .project-card__body {
   padding: 1.6rem;
 }
@@ -640,18 +663,6 @@ p {
 .gallery-card img {
   width: 100%;
   height: auto;
-}
-
-.gallery-card figcaption {
-  position: absolute;
-  left: 1rem;
-  right: 1rem;
-  bottom: 1rem;
-  padding: 0.85rem 1rem;
-  border-radius: 14px;
-  background: rgba(17, 24, 49, 0.75);
-  color: var(--white);
-  backdrop-filter: blur(8px);
 }
 
 .contact__content {
@@ -738,6 +749,106 @@ p {
   box-shadow: 0 18px 32px rgba(15, 157, 98, 0.28);
 }
 
+.site-footer {
+  padding: 3.5rem 0;
+  background: #121831;
+  color: rgba(255, 255, 255, 0.86);
+}
+
+.site-footer__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 0.8fr);
+  gap: 2rem;
+  align-items: start;
+}
+
+.site-footer__brand {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.site-footer__brand img {
+  width: 3.2rem;
+  height: 3.2rem;
+  object-fit: contain;
+}
+
+.site-footer__brand h2 {
+  margin-bottom: 0.5rem;
+  color: var(--white);
+  font-size: 1.45rem;
+}
+
+.site-footer__brand p {
+  margin-bottom: 0;
+  max-width: 28rem;
+}
+
+.site-footer__details {
+  display: grid;
+  gap: 0.65rem;
+  justify-items: start;
+}
+
+.site-footer__details p,
+.site-footer__details a {
+  margin: 0;
+}
+
+.site-footer__details a {
+  color: var(--white);
+}
+
+.image-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+}
+
+.image-modal[hidden] {
+  display: none;
+}
+
+.image-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(9, 12, 25, 0.82);
+}
+
+.image-modal__dialog {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 1120px);
+  max-height: calc(100vh - 2rem);
+  padding: 1rem;
+  border-radius: var(--radius-lg);
+  background: rgba(16, 22, 44, 0.96);
+  box-shadow: var(--shadow-lg);
+}
+
+.image-modal__image {
+  width: 100%;
+  max-height: calc(100vh - 6rem);
+  object-fit: contain;
+}
+
+.image-modal__close {
+  position: absolute;
+  top: 0.65rem;
+  right: 0.65rem;
+  width: 2.8rem;
+  height: 2.8rem;
+  border-radius: 999px;
+  color: var(--white);
+  background: rgba(255, 255, 255, 0.12);
+  font-size: 1.9rem;
+  line-height: 1;
+}
+
 .menu-toggle {
   display: none;
   width: 3rem;
@@ -796,7 +907,6 @@ p {
   .topbar__inner,
   .topbar__links,
   .hero__actions,
-  .about__stats,
   .trust-band__grid {
     grid-template-columns: 1fr;
   }
@@ -841,6 +951,10 @@ p {
 
   .hero__panel {
     order: -1;
+  }
+
+  .site-footer__inner {
+    grid-template-columns: 1fr;
   }
 
   .project-card__gallery {

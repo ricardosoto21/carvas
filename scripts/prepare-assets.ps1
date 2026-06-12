@@ -17,7 +17,8 @@ $manifest = @(
     @{ Source = "Imagenes sitio web carvas/casa 2/20251002_143652.jpg"; Destination = "photos/projects/casa-2-progress.jpg"; Type = "image"; MaxWidth = 1400; Quality = 84 }
     @{ Source = "Imagenes sitio web carvas/casa 3/WhatsApp Image 2026-06-09 at 11.39.45.jpeg"; Destination = "photos/projects/casa-3-cover.jpg"; Type = "image"; MaxWidth = 1280; Quality = 84 }
     @{ Source = "Imagenes sitio web carvas/casa 3/WhatsApp Image 2026-06-09 at 11.39.44.jpeg"; Destination = "photos/projects/casa-3-structure.jpg"; Type = "image"; MaxWidth = 1280; Quality = 84 }
-    @{ Source = "Imagenes sitio web carvas/imagenes galeria de trabajos/WhatsApp Image 2026-06-09 at 10.13.00.jpeg"; Destination = "photos/projects/radier-cover.jpg"; Type = "image"; MaxWidth = 1600; Quality = 84 }
+    @{ Source = "Imagenes sitio web carvas/Carrusel 1/20251002_143649.jpg"; Destination = "photos/projects/radier-cover.jpg"; Type = "image"; MaxWidth = 1600; Quality = 84 }
+    @{ Source = "Imagenes sitio web carvas/Carrusel 1/WhatsApp Image 2026-06-09 at 10.13.01 (1).jpeg"; Destination = "photos/projects/radier-detail.jpg"; Type = "image"; MaxWidth = 1600; Quality = 84 }
     @{ Source = "Imagenes sitio web carvas/imagenes galeria de trabajos/WhatsApp Image 2026-03-07 at 18.56.06.jpeg"; Destination = "photos/gallery/gallery-01.jpg"; Type = "image"; MaxWidth = 1400; Quality = 84 }
     @{ Source = "Imagenes sitio web carvas/imagenes galeria de trabajos/WhatsApp Image 2026-05-28 at 11.27.03.jpeg"; Destination = "photos/gallery/gallery-02.jpg"; Type = "image"; MaxWidth = 1400; Quality = 84 }
     @{ Source = "Imagenes sitio web carvas/imagenes galeria de trabajos/WhatsApp Image 2026-05-28 at 11.27.02.jpeg"; Destination = "photos/gallery/gallery-03.jpg"; Type = "image"; MaxWidth = 1400; Quality = 84 }
