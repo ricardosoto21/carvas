@@ -80,7 +80,7 @@ window.CARVAS_CONTENT = {
       description: "",
     },
     {
-      title: "Construcción de estructuras metálicas",
+      title: "Construcción de estructura metalicas",
       description: "",
     },
     {
@@ -100,7 +100,7 @@ window.CARVAS_CONTENT = {
     {
       name: "Casa 1",
       surface: "190 m²",
-      type: "Vivienda estilo mediterráneo",
+      type: "",
       cover: "assets/photos/projects/casa-1-cover.jpg",
       alt: "Casa mediterránea terminada por Constructora Carvas.",
       summary:
@@ -115,11 +115,11 @@ window.CARVAS_CONTENT = {
     {
       name: "Casa 2",
       surface: "100 m² + 80 m² terraza",
-      type: "Vivienda familiar con vigas a la vista",
+      type: "",
       cover: "assets/photos/projects/casa-2-cover.jpg",
       alt: "Casa familiar en proceso constructivo.",
       summary:
-        "Casa de 100 m2 + 80 m2 de terraza.",
+        "Casas de 100 m2 + 80 m2 de terraza.",
       attributes: ["3 Dormitorios", "2 Baños + sector de tina", "Vigas a la vista"],
       gallery: [
         "assets/photos/projects/casa-2-cover.jpg",
@@ -130,7 +130,7 @@ window.CARVAS_CONTENT = {
     {
       name: "Casa 3",
       surface: "100 m²",
-      type: "Vivienda compacta y eficiente",
+      type: "",
       cover: "assets/photos/projects/casa-3-cover.jpg",
       alt: "Estructura inicial de una casa compacta construida por Carvas.",
       summary:
@@ -144,12 +144,12 @@ window.CARVAS_CONTENT = {
     {
       name: "Radier 900 m²",
       surface: "900 m²",
-      type: "Mejoramiento de piso para galpón",
+      type: "",
       cover: "assets/photos/projects/radier-cover.jpg",
       alt: "Radier exterior terminado para obra de galpón.",
       summary:
         "Mejoramiento de piso de galpon.",
-      attributes: ["Uso industrial", "Soporte de maquinaria pesada", "Mejoramiento de piso de galpón"],
+      attributes: ["Mejoramiento de piso de galpon", "Radier especial para soporte de camiones y maquinaria pesada"],
       gallery: [
         "assets/photos/projects/radier-cover.jpg",
         "assets/photos/projects/radier-detail.jpg",
@@ -200,7 +200,7 @@ window.CARVAS_CONTENT = {
       { label: "Correo", kind: "email" },
     ],
     form: {
-      title: "Cuéntanos tu proyecto",
+      title: "Formulario de contacto",
       submitLabel: "Enviar a WhatsApp",
       fields: [
         { name: "name", label: "Nombre", type: "text", required: true },

@@ -200,9 +200,7 @@
       <section class="section projects" id="proyectos">
         <div class="container">
           <div class="section-heading" data-reveal>
-            <p class="eyebrow">Proyectos destacados</p>
-            <h2>Algunos trabajos recientes.</h2>
-            <p>Casas, radieres y obras complementarias.</p>
+            <h2>Proyectos</h2>
           </div>
           <div class="projects__list">
             ${projects
@@ -223,7 +221,7 @@
                     <div class="project-card__body">
                       <div class="project-card__topline">
                         <span>${project.surface}</span>
-                        <small>${project.type}</small>
+                        ${project.type ? `<small>${project.type}</small>` : ""}
                       </div>
                       <h3>${project.name}</h3>
                       <p>${project.summary}</p>
@@ -265,9 +263,7 @@
       <section class="section gallery" id="galeria">
         <div class="container">
           <div class="section-heading" data-reveal>
-            <p class="eyebrow">Galería de trabajos</p>
-            <h2>Galería de trabajos.</h2>
-            <p>Imágenes reales de obras y avances.</p>
+            <h2>Galería de trabajos</h2>
           </div>
           <div class="gallery__masonry">
             ${gallery
@@ -333,7 +329,6 @@
                   )
                   .join("")}
                 <button type="submit" class="button button--primary button--full">${contact.form.submitLabel}</button>
-                <p class="form-hint">El formulario abrirá WhatsApp con tu mensaje listo para enviar.</p>
               </form>
             </div>
           </div>

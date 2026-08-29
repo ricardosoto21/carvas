@@ -729,12 +729,6 @@ p {
   box-shadow: 0 0 0 4px rgba(47, 78, 155, 0.12);
 }
 
-.form-hint {
-  margin: 0.9rem 0 0;
-  color: var(--stone-500);
-  font-size: 0.92rem;
-}
-
 .floating-whatsapp {
   position: fixed;
   right: 1rem;
@@ -947,10 +941,6 @@ p {
 
   .hero__content {
     padding: 8.8rem 0 3rem;
-  }
-
-  .hero__panel {
-    order: -1;
   }
 
   .site-footer__inner {
