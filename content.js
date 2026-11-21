@@ -73,26 +73,32 @@ window.CARVAS_CONTENT = {
   services: [
     {
       title: "Construcción de casas",
+      icon: "🏠",
       description: "",
     },
     {
       title: "Construcción de radieres",
+      icon: "🧱",
       description: "",
     },
     {
       title: "Construcción de estructura metalicas",
+      icon: "🏗️",
       description: "",
     },
     {
       title: "Instalación de fosas sépticas, eléctricas y sanitarias",
+      icon: "🔧",
       description: "",
     },
     {
       title: "Servicios de ampliación y regularización",
+      icon: "📐",
       description: "",
     },
     {
       title: "Servicios de mantención a casas",
+      icon: "🛠",
       description: "",
     },
   ],

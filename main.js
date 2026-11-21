@@ -79,6 +79,7 @@
       ${renderServices()}
       ${renderProjects()}
       ${renderGallery()}
+      ${renderInstagram()}
       ${renderContact()}
     `;
   }
@@ -180,9 +181,9 @@
           <div class="services__grid">
             ${services
               .map(
-                (service, index) => `
-                  <article class="service-card" data-reveal style="transition-delay:${index * 40}ms">
-                    <span class="service-card__index">0${index + 1}</span>
+                (service) => `
+                  <article class="service-card" data-reveal>
+                    <span class="service-card__icon" aria-hidden="true">${service.icon}</span>
                     <h3>${service.title}</h3>
                     ${service.description ? `<p>${service.description}</p>` : ""}
                   </article>
@@ -205,8 +206,8 @@
           <div class="projects__list">
             ${projects
               .map(
-                (project, index) => `
-                  <article class="project-card ${index % 2 === 0 ? "project-card--accent" : ""}" data-reveal>
+                (project) => `
+                  <article class="project-card" data-reveal>
                     <div class="project-card__media">
                       <button
                         type="button"
@@ -265,11 +266,16 @@
           <div class="section-heading" data-reveal>
             <h2>Galería de trabajos</h2>
           </div>
-          <div class="gallery__masonry">
+          <div class="gallery__controls">
+            <button type="button" class="gallery__arrow" data-gallery-prev aria-label="Foto anterior">←</button>
+            <span class="gallery__count" aria-live="polite"></span>
+            <button type="button" class="gallery__arrow" data-gallery-next aria-label="Foto siguiente">→</button>
+          </div>
+          <div class="gallery__carousel" tabindex="0" aria-label="Fotos de trabajos sin proyecto definido">
             ${gallery
               .map(
-                (item, index) => `
-                  <figure class="gallery-card ${index % 3 === 0 ? "gallery-card--large" : ""}" data-reveal>
+                (item) => `
+                  <figure class="gallery-card">
                     <button
                       type="button"
                       class="image-trigger"
@@ -283,6 +289,26 @@
                 `
               )
               .join("")}
+          </div>
+        </div>
+      </section>
+    `;
+  }
+
+  function renderInstagram() {
+    return `
+      <section class="section instagram" id="instagram">
+        <div class="container instagram__layout">
+          <div class="instagram__copy" data-reveal>
+            <p class="eyebrow">Instagram</p>
+            <h2>Sigue el avance de nuestras obras</h2>
+            <p>Conoce más trabajos de Constructora Carvas en nuestro perfil.</p>
+            <a class="button button--instagram" href="${company.instagram}" target="_blank" rel="noopener noreferrer" aria-label="Visitar Instagram de Constructora Carvas en una pestaña nueva">
+              <span aria-hidden="true">◎</span> Ver @constructora_carvas26 <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+          <div class="instagram__preview" aria-label="Vista previa de trabajos de Carvas" data-reveal>
+            ${gallery.slice(0, 4).map((item) => `<img src="${item.image}" alt="${item.alt}" loading="lazy" />`).join("")}
           </div>
         </div>
       </section>
@@ -367,6 +393,7 @@
     wireQuickLinks();
     wireForm();
     wireHeroCarousel();
+    wireGalleryCarousel();
     wireRevealAnimations();
     wireImageTriggers();
     wireImageModal();
@@ -486,6 +513,31 @@
     });
 
     startTimer();
+  }
+
+  function wireGalleryCarousel() {
+    const carousel = document.querySelector(".gallery__carousel");
+    if (!carousel) return;
+    const cards = Array.from(carousel.querySelectorAll(".gallery-card"));
+    const count = document.querySelector(".gallery__count");
+    const update = () => {
+      const index = Math.round(carousel.scrollLeft / (cards[0].getBoundingClientRect().width + 16));
+      count.textContent = `${Math.min(index + 1, cards.length)} / ${cards.length}`;
+    };
+    const move = (direction) => {
+      const index = Math.round(carousel.scrollLeft / (cards[0].getBoundingClientRect().width + 16));
+      cards[(index + direction + cards.length) % cards.length].scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
+    };
+    document.querySelector("[data-gallery-prev]").addEventListener("click", () => move(-1));
+    document.querySelector("[data-gallery-next]").addEventListener("click", () => move(1));
+    carousel.addEventListener("scroll", update, { passive: true });
+    carousel.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
+        event.preventDefault();
+        move(event.key === "ArrowRight" ? 1 : -1);
+      }
+    });
+    update();
   }
 
   function wireRevealAnimations() {
