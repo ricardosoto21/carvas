@@ -45,8 +45,13 @@
         <button class="image-modal__close" id="image-modal-close" type="button" aria-label="Cerrar imagen">
           ×
         </button>
-        <p class="sr-only" id="image-modal-title">Vista ampliada de imagen</p>
-        <img class="image-modal__image" id="image-modal-image" alt="" />
+        <p class="image-modal__title" id="image-modal-title">Vista ampliada de imagen</p>
+        <div class="image-modal__stage">
+          <button class="image-modal__arrow" id="image-modal-prev" type="button" aria-label="Foto anterior">←</button>
+          <img class="image-modal__image" id="image-modal-image" alt="" />
+          <button class="image-modal__arrow" id="image-modal-next" type="button" aria-label="Foto siguiente">→</button>
+        </div>
+        <p class="image-modal__count" id="image-modal-count" aria-live="polite"></p>
       </div>
     </div>
 

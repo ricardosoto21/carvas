@@ -16,6 +16,7 @@
   --radius-sm: 14px;
   --container: min(1180px, calc(100vw - 2rem));
   --transition: 220ms ease;
+  --instagram-gradient: linear-gradient(115deg, #5b3bc4 0%, #b92b8e 42%, #e75056 72%, #e88c20 100%);
 }
 
 *,
@@ -558,21 +559,17 @@ p {
 
 .projects__list {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1.2rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
 }
 
 .project-card {
   overflow: hidden;
 }
 
-.project-card--accent {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(246, 240, 230, 0.94));
-}
-
 .project-card__media img {
   width: 100%;
-  height: 14rem;
+  height: 11rem;
   object-fit: cover;
 }
 
@@ -599,17 +596,17 @@ p {
 }
 
 .project-card__body {
-  padding: 1.2rem;
+  padding: 1rem;
 }
 
-.project-card__body h3 { margin-bottom: 0.35rem; }
-.project-card__body p { margin-bottom: 0.7rem; }
+.project-card__body h3 { margin-bottom: 0.25rem; font-size: 1.35rem; }
+.project-card__body p { margin-bottom: 0.55rem; line-height: 1.45; }
 
 .project-card__topline {
   display: flex;
   flex-wrap: wrap;
   gap: 0.7rem 1rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   color: var(--stone-500);
   font-size: 0.92rem;
 }
@@ -619,67 +616,50 @@ p {
   font-weight: 700;
 }
 
-.project-card__attributes {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.7rem;
-  padding: 0;
-  margin: 0.8rem 0;
-  list-style: none;
-}
-
-.project-card__attributes li {
-  padding: 0.4rem 0.7rem;
+.project-card__features {
+  color: var(--stone-500);
   font-size: 0.82rem;
-  border-radius: 999px;
-  background: var(--sand-100);
-  color: var(--navy-950);
-  font-weight: 600;
 }
 
-.project-card__gallery {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.8rem;
-}
-
-.project-card__gallery figure {
-  overflow: hidden;
-  margin: 0;
-  border-radius: var(--radius-sm);
-}
-
-.project-card__gallery img {
-  width: 100%;
-  height: 4.8rem;
-  object-fit: cover;
-}
+.project-card__gallery-button { display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 0.4rem; padding: 0; color: var(--navy-800); font-size: 0.88rem; font-weight: 700; }
+.project-card__gallery-button:hover { text-decoration: underline; }
+.project-card__gallery-button:focus-visible { outline: 2px solid var(--navy-800); outline-offset: 3px; }
 
 .gallery__controls {
   display: flex;
   align-items: center;
   justify-content: flex-end;
   gap: 0.8rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.7rem;
 }
 
 .gallery__arrow {
-  width: 2.8rem;
-  height: 2.8rem;
+  width: 3rem;
+  height: 3rem;
   border-radius: 50%;
-  background: var(--navy-900);
-  color: var(--white);
+  border: 1px solid rgba(39, 40, 108, 0.18);
+  background: var(--white);
+  color: var(--navy-900);
   font-size: 1.35rem;
+  box-shadow: var(--shadow-md);
+  transition: transform var(--transition), background var(--transition), color var(--transition);
 }
+.gallery__arrow:hover, .gallery__arrow:focus-visible { transform: translateY(-2px); background: var(--navy-900); color: var(--white); }
+.gallery__arrow:focus-visible { outline: 3px solid var(--navy-800); outline-offset: 2px; }
+.gallery__count { min-width: 3rem; text-align: center; color: var(--navy-900); font-weight: 700; font-variant-numeric: tabular-nums; }
+.gallery__progress { height: 3px; margin-bottom: 0.7rem; border-radius: 999px; background: var(--stone-200); overflow: hidden; }
+.gallery__progress span { display: block; height: 100%; background: var(--navy-800); transition: width 400ms ease; }
 
 .gallery__carousel {
   display: flex;
   gap: 1rem;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  scrollbar-width: thin;
-  padding: 0.5rem 0 1.5rem;
+  scrollbar-width: none;
+  padding: 0.25rem 0 0.75rem;
 }
+.gallery__carousel::-webkit-scrollbar { display: none; }
+.gallery__carousel:focus-visible { outline: 3px solid var(--navy-800); outline-offset: 3px; }
 
 .gallery-card {
   position: relative;
@@ -688,6 +668,8 @@ p {
   margin: 0;
   scroll-snap-align: start;
   background: var(--navy-950);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
 }
 
 .gallery-card img {
@@ -701,15 +683,69 @@ p {
 .instagram__copy p { max-width: 28rem; }
 .button--instagram {
   color: var(--white);
-  background: linear-gradient(120deg, #6647bf, #c13584 52%, #f77737);
+  background: var(--instagram-gradient);
   box-shadow: 0 14px 30px rgba(193, 53, 132, 0.3);
 }
 .button--instagram:hover, .button--instagram:focus-visible {
   transform: translateY(-4px);
   box-shadow: 0 20px 36px rgba(193, 53, 132, 0.42);
 }
-.instagram__preview { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.6rem; }
-.instagram__preview img { width: 100%; height: 12rem; object-fit: cover; border-radius: var(--radius-sm); }
+.instagram-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3rem;
+  padding: 0.55rem 1.2rem;
+  border: 0;
+  border-radius: 999px;
+  color: var(--white);
+  background: var(--instagram-gradient);
+  box-shadow: 0 10px 24px rgba(193, 53, 132, 0.26);
+  font-weight: 700;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.instagram-link:hover, .instagram-link:focus-visible {
+  color: var(--white);
+  transform: translateY(-3px);
+  box-shadow: 0 15px 28px rgba(193, 53, 132, 0.4);
+}
+.instagram-link:focus-visible, .button--instagram:focus-visible {
+  outline: 3px solid var(--navy-950);
+  outline-offset: 3px;
+}
+.instagram-link--topbar { min-height: 2.35rem; padding: 0.35rem 1rem; }
+.instagram-link--footer { margin-top: 0.25rem !important; }
+.instagram__profile {
+  overflow: hidden;
+  border: 1px solid rgba(39, 40, 108, 0.1);
+  border-radius: var(--radius-lg);
+  background: var(--white);
+  box-shadow: var(--shadow-lg);
+}
+.instagram__profile-header {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 1rem 1.2rem;
+}
+.instagram__avatar {
+  display: grid;
+  place-items: center;
+  flex: 0 0 3.5rem;
+  height: 3.5rem;
+  padding: 3px;
+  border-radius: 50%;
+  background: var(--instagram-gradient);
+}
+.instagram__avatar img { width: 100%; height: 100%; border: 2px solid var(--white); border-radius: 50%; object-fit: contain; background: var(--white); }
+.instagram__profile-header strong, .instagram__profile-header span { display: block; }
+.instagram__profile-header strong { color: var(--navy-950); }
+.instagram__profile-header span { color: var(--stone-500); font-size: 0.86rem; }
+.instagram__profile-header a { margin-left: auto; font-size: 1.35rem; color: var(--navy-900); }
+.instagram__profile-caption { margin: 0; padding: 0 1.2rem 0.8rem; font-weight: 700; color: var(--navy-950); }
+.instagram__preview { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; }
+.instagram__preview img { width: 100%; aspect-ratio: 1; object-fit: cover; }
+.instagram__profile-note { margin: 0; padding: 0.75rem 1.2rem; color: var(--stone-500); font-size: 0.78rem; }
 
 .service-card, .project-card, .gallery-card, .trust-chip {
   transition: transform 300ms ease, box-shadow 300ms ease;
@@ -749,6 +785,13 @@ p {
   border: 1px solid rgba(39, 40, 108, 0.12);
   box-shadow: var(--shadow-md);
   font-weight: 700;
+}
+
+.quicklink.instagram-link {
+  color: var(--white);
+  border: 0;
+  background: var(--instagram-gradient);
+  box-shadow: 0 10px 24px rgba(193, 53, 132, 0.26);
 }
 
 .contact__form-card {
@@ -880,9 +923,16 @@ p {
 
 .image-modal__image {
   width: 100%;
-  max-height: calc(100vh - 6rem);
+  height: min(70vh, 680px);
   object-fit: contain;
 }
+
+.image-modal__title { margin: 0 3rem 0.75rem; color: var(--white); text-align: center; font-weight: 700; }
+.image-modal__stage { display: grid; grid-template-columns: 3rem minmax(0, 1fr) 3rem; align-items: center; gap: 0.5rem; }
+.image-modal__arrow { width: 3rem; height: 3rem; border-radius: 50%; color: var(--white); background: rgba(255, 255, 255, 0.15); font-size: 1.5rem; }
+.image-modal__arrow:hover, .image-modal__arrow:focus-visible { background: rgba(255, 255, 255, 0.3); }
+.image-modal__arrow[hidden], .image-modal__count[hidden] { visibility: hidden; }
+.image-modal__count { margin: 0.75rem 0 0; color: var(--white); text-align: center; font-variant-numeric: tabular-nums; }
 
 .image-modal__close {
   position: absolute;
@@ -941,7 +991,6 @@ p {
     grid-template-columns: 1fr;
   }
 
-  .project-card__media img,
   .about__figure img {
     min-height: 18rem;
   }
@@ -1006,7 +1055,6 @@ p {
   .projects__list { grid-template-columns: 1fr; }
   .project-card__media img { min-height: 0; height: 13rem; }
   .gallery-card img { height: 18rem; }
-  .instagram__preview img { height: 8rem; }
 
   .floating-whatsapp {
     display: inline-flex;

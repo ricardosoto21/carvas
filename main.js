@@ -13,7 +13,13 @@
   const imageModal = document.getElementById("image-modal");
   const imageModalImage = document.getElementById("image-modal-image");
   const imageModalClose = document.getElementById("image-modal-close");
+  const imageModalTitle = document.getElementById("image-modal-title");
+  const imageModalCount = document.getElementById("image-modal-count");
+  const imageModalPrev = document.getElementById("image-modal-prev");
+  const imageModalNext = document.getElementById("image-modal-next");
   let modalTrigger = null;
+  let modalImages = [];
+  let modalIndex = 0;
 
   applyMeta(meta);
   renderHeader();
@@ -42,7 +48,7 @@
         <div class="container topbar__inner">
           <p>${company.address}</p>
           <div class="topbar__links">
-            <a href="${company.instagram}" target="_blank" rel="noreferrer">Instagram</a>
+            <a class="instagram-link instagram-link--topbar" href="${company.instagram}" target="_blank" rel="noopener noreferrer">◎ Instagram</a>
           </div>
         </div>
       </div>
@@ -206,15 +212,14 @@
           <div class="projects__list">
             ${projects
               .map(
-                (project) => `
+                (project, projectIndex) => `
                   <article class="project-card" data-reveal>
                     <div class="project-card__media">
                       <button
                         type="button"
                         class="image-trigger"
-                        data-image-src="${project.cover}"
-                        data-image-alt="${project.alt}"
-                        aria-label="Ampliar imagen principal de ${project.name}"
+                        data-project-gallery="${projectIndex}"
+                        aria-label="Ver fotos de ${project.name}"
                       >
                         <img src="${project.cover}" alt="${project.alt}" loading="lazy" />
                       </button>
@@ -226,28 +231,10 @@
                       </div>
                       <h3>${project.name}</h3>
                       <p>${project.summary}</p>
-                      <ul class="project-card__attributes">
-                        ${project.attributes.map((attribute) => `<li>${attribute}</li>`).join("")}
-                      </ul>
-                      <div class="project-card__gallery">
-                        ${project.gallery
-                          .map(
-                            (image) => `
-                              <figure>
-                                <button
-                                  type="button"
-                                  class="image-trigger image-trigger--thumb"
-                                  data-image-src="${image}"
-                                  data-image-alt="Detalle del proyecto ${project.name}"
-                                  aria-label="Ampliar imagen del proyecto ${project.name}"
-                                >
-                                  <img src="${image}" alt="Detalle del proyecto ${project.name}" loading="lazy" />
-                                </button>
-                              </figure>
-                            `
-                          )
-                          .join("")}
-                      </div>
+                      <p class="project-card__features">${project.attributes.join(" · ")}</p>
+                      <button type="button" class="project-card__gallery-button" data-project-gallery="${projectIndex}">
+                        Ver fotos del proyecto <span aria-hidden="true">→</span>
+                      </button>
                     </div>
                   </article>
                 `
@@ -271,6 +258,7 @@
             <span class="gallery__count" aria-live="polite"></span>
             <button type="button" class="gallery__arrow" data-gallery-next aria-label="Foto siguiente">→</button>
           </div>
+          <div class="gallery__progress" aria-hidden="true"><span></span></div>
           <div class="gallery__carousel" tabindex="0" aria-label="Fotos de trabajos sin proyecto definido">
             ${gallery
               .map(
@@ -307,8 +295,20 @@
               <span aria-hidden="true">◎</span> Ver @constructora_carvas26 <span aria-hidden="true">↗</span>
             </a>
           </div>
-          <div class="instagram__preview" aria-label="Vista previa de trabajos de Carvas" data-reveal>
-            ${gallery.slice(0, 4).map((item) => `<img src="${item.image}" alt="${item.alt}" loading="lazy" />`).join("")}
+          <div class="instagram__profile" data-reveal>
+            <div class="instagram__profile-header">
+              <div class="instagram__avatar"><img src="${company.logo}" alt="" loading="lazy" /></div>
+              <div>
+                <strong>@constructora_carvas26</strong>
+                <span>Constructora Carvas · Osorno</span>
+              </div>
+              <a href="${company.instagram}" target="_blank" rel="noopener noreferrer" aria-label="Abrir perfil de Constructora Carvas en Instagram">↗</a>
+            </div>
+            <p class="instagram__profile-caption">Una muestra de nuestros trabajos</p>
+            <div class="instagram__preview" aria-label="Fotos de trabajos de Carvas">
+              ${gallery.slice(0, 6).map((item) => `<img src="${item.image}" alt="${item.alt}" loading="lazy" />`).join("")}
+            </div>
+            <p class="instagram__profile-note">Fotos del sitio. Visita Instagram para ver las publicaciones actuales.</p>
           </div>
         </div>
       </section>
@@ -329,7 +329,7 @@
             </div>
             <div class="contact__quicklinks">
               ${contact.quickLinks
-                .map((link) => `<button type="button" class="quicklink" data-quicklink="${link.kind}">${link.label}</button>`)
+                .map((link) => `<button type="button" class="quicklink ${link.kind === "instagram" ? "instagram-link" : ""}" data-quicklink="${link.kind}">${link.kind === "instagram" ? "◎ " : ""}${link.label}</button>`)
                 .join("")}
             </div>
           </div>
@@ -381,7 +381,7 @@
           <p>${company.phoneDisplay}</p>
           <a href="mailto:${company.email}">${company.email}</a>
           <p>${company.address}</p>
-          <a href="${company.instagram}" target="_blank" rel="noreferrer">Instagram</a>
+          <a class="instagram-link instagram-link--footer" href="${company.instagram}" target="_blank" rel="noopener noreferrer">◎ Instagram</a>
         </div>
       </div>
     `;
@@ -520,13 +520,18 @@
     if (!carousel) return;
     const cards = Array.from(carousel.querySelectorAll(".gallery-card"));
     const count = document.querySelector(".gallery__count");
+    const progress = document.querySelector(".gallery__progress span");
+    const step = () => cards[0].getBoundingClientRect().width + parseFloat(getComputedStyle(carousel).gap || 0);
     const update = () => {
-      const index = Math.round(carousel.scrollLeft / (cards[0].getBoundingClientRect().width + 16));
+      const index = Math.round(carousel.scrollLeft / step());
       count.textContent = `${Math.min(index + 1, cards.length)} / ${cards.length}`;
+      progress.style.width = `${((index + 1) / cards.length) * 100}%`;
     };
     const move = (direction) => {
-      const index = Math.round(carousel.scrollLeft / (cards[0].getBoundingClientRect().width + 16));
-      cards[(index + direction + cards.length) % cards.length].scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
+      const index = Math.round(carousel.scrollLeft / step());
+      const next = (index + direction + cards.length) % cards.length;
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      carousel.scrollTo({ left: next * step(), behavior: reducedMotion ? "auto" : "smooth" });
     };
     document.querySelector("[data-gallery-prev]").addEventListener("click", () => move(-1));
     document.querySelector("[data-gallery-next]").addEventListener("click", () => move(1));
@@ -563,9 +568,17 @@
   }
 
   function wireImageTriggers() {
-    document.querySelectorAll(".image-trigger").forEach((button) => {
+    document.querySelectorAll("[data-project-gallery]").forEach((button) => {
       button.addEventListener("click", function () {
-        openImageModal(button.getAttribute("data-image-src"), button.getAttribute("data-image-alt"), button);
+        const project = projects[Number(button.getAttribute("data-project-gallery"))];
+        const images = [...new Set([project.cover, ...project.gallery])];
+        openImageModal(images.map((src, index) => ({ src, alt: index === 0 ? project.alt : `Detalle del proyecto ${project.name}` })), project.name, button);
+      });
+    });
+    document.querySelectorAll(".image-trigger").forEach((button) => {
+      if (button.hasAttribute("data-project-gallery")) return;
+      button.addEventListener("click", function () {
+        openImageModal([{ src: button.getAttribute("data-image-src"), alt: button.getAttribute("data-image-alt") }], "Vista ampliada de imagen", button);
       });
     });
   }
@@ -576,6 +589,8 @@
     }
 
     imageModalClose.addEventListener("click", closeImageModal);
+    imageModalPrev.addEventListener("click", () => showModalImage(modalIndex - 1));
+    imageModalNext.addEventListener("click", () => showModalImage(modalIndex + 1));
     imageModal.querySelectorAll("[data-close-image-modal]").forEach((element) => {
       element.addEventListener("click", closeImageModal);
     });
@@ -584,17 +599,31 @@
       if (event.key === "Escape" && !imageModal.hidden) {
         closeImageModal();
       }
+      if (!imageModal.hidden && event.key === "ArrowLeft") showModalImage(modalIndex - 1);
+      if (!imageModal.hidden && event.key === "ArrowRight") showModalImage(modalIndex + 1);
     });
   }
 
-  function openImageModal(src, alt, trigger) {
+  function showModalImage(index) {
+    if (!modalImages.length) return;
+    modalIndex = (index + modalImages.length) % modalImages.length;
+    imageModalImage.src = modalImages[modalIndex].src;
+    imageModalImage.alt = modalImages[modalIndex].alt || "";
+    imageModalCount.textContent = `${modalIndex + 1} / ${modalImages.length}`;
+  }
+
+  function openImageModal(images, title, trigger) {
     if (!imageModal || !imageModalImage) {
       return;
     }
 
     modalTrigger = trigger || null;
-    imageModalImage.src = src;
-    imageModalImage.alt = alt || "";
+    modalImages = images;
+    imageModalTitle.textContent = title;
+    imageModalPrev.hidden = images.length < 2;
+    imageModalNext.hidden = images.length < 2;
+    imageModalCount.hidden = images.length < 2;
+    showModalImage(0);
     imageModal.hidden = false;
     document.body.classList.add("modal-open");
     imageModalClose.focus();
@@ -608,6 +637,7 @@
     imageModal.hidden = true;
     imageModalImage.removeAttribute("src");
     imageModalImage.alt = "";
+    modalImages = [];
     document.body.classList.remove("modal-open");
     if (modalTrigger) {
       modalTrigger.focus();

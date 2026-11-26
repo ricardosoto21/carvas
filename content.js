@@ -61,12 +61,12 @@ window.CARVAS_CONTENT = {
     "Cotización sin compromiso",
   ],
   about: {
-    eyebrow: "Décima región",
-    title: "Tu Hogar Ideal Empieza con una Buena Construcción",
+    eyebrow: "Construcción eficiente",
+    title: "Construir bien también es ahorrar",
     description:
-      "Somos una empresa de la décima región, enfocados en hacer el proceso de construcción de la manera más eficiente, optimizando y utilizando la menor cantidad de recursos, para el beneficio de nuestros clientes. Todo lo que imaginas lo hacemos realidad, innovando y preocupándonos siempre de hacer un trabajo de calidad.",
+      "Planificamos cada obra para aprovechar mejor los materiales y evitar gastos innecesarios. Así, tu presupuesto se convierte en una construcción de calidad, con decisiones claras en cada etapa.",
     extra:
-      "Realizamos todo tipo de proyectos.",
+      "Cuéntanos tu idea y busquemos una solución que se ajuste a tus necesidades y presupuesto.",
     image: "assets/photos/about/about-main.jpg",
     alt: "Casa de Constructora Carvas durante el atardecer.",
   },
@@ -151,15 +151,12 @@ window.CARVAS_CONTENT = {
       name: "Radier 900 m²",
       surface: "900 m²",
       type: "",
-      cover: "assets/photos/projects/radier-cover.jpg",
-      alt: "Radier exterior terminado para obra de galpón.",
+      cover: "assets/photos/projects/radier-detail.jpg",
+      alt: "Radier de hormigón dentro de la bodega.",
       summary:
         "Mejoramiento de piso de galpon.",
       attributes: ["Mejoramiento de piso de galpon", "Radier especial para soporte de camiones y maquinaria pesada"],
-      gallery: [
-        "assets/photos/projects/radier-cover.jpg",
-        "assets/photos/projects/radier-detail.jpg",
-      ],
+      gallery: [],
     },
   ],
   gallery: [
